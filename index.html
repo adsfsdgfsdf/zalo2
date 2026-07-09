@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Zalo Dual App</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Zalo 2">
+    <link rel="apple-touch-icon" href="https://chat.zalo.me/assets/icon-general.png">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #0068ff; }
+        .app-container { width: 100%; height: 100%; border: none; display: block; }
+        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #0068ff; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 9999; transition: opacity 0.5s ease; }
+        .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 1s linear infinite; margin-bottom: 20px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div id="splash-screen">
+        <div class="spinner"></div>
+        <div style="font-weight: 500; font-size: 16px;">Đang khởi tạo không gian Zalo 2...</div>
+    </div>
+    <iframe id="zalo-frame" class="app-container" src="https://chat.zalo.me"></iframe>
+    <script>
+        const fakeUA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
+        try {
+            Object.defineProperty(navigator, 'userAgent', { get: () => fakeUA });
+            Object.defineProperty(navigator, 'platform', { get: () => 'Win32' });
+        } catch (e) { console.error(e); }
+        const frame = document.getElementById('zalo-frame');
+        frame.onload = function() {
+            const splash = document.getElementById('splash-screen');
+            if(splash) { splash.style.opacity = '0'; setTimeout(() => splash.remove(), 500); }
+        };
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdmaXRjaCcsIGZ1bmN0aW9uKGV2ZW50KSB7IH0pOw==');
+        }
+        document.addEventListener('click', function(event) {
+            let target = event.target;
+            while (target && target.nodeName !== 'A') { target = target.parentNode; }
+            if (target && target.href) { event.preventDefault(); window.location.href = target.href; }
+        }, false);
+    </script>
+</body>
+</html>
