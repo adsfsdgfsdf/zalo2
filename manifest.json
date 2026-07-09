@@ -1,0 +1,16 @@
+{
+  "name": "Zalo Dual Web App",
+  "short_name": "Zalo 2",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0068ff",
+  "theme_color": "#0068ff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://chat.zalo.me/assets/icon-general.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
